@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { Router } from 'vue-router';
+import type { NavigationGuardNext } from 'vue-router';
+import type { RouteLocationNormalizedGeneric } from 'vue-router';
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 import HomeView from "@/router/pages/HomeView.vue";
+import TaskView from "@/router/pages/TaskView.vue";
 
 const routes = [
     {
@@ -11,6 +15,14 @@ const routes = [
             title: "Kanban nástěnka - domovská obrazovka"
         }
     },
+    {
+        path: '/ukol/:id',
+        name: 'task',
+        component: TaskView,
+        meta: {
+            title: "Kanban nástěnka - úkol"
+        }
+    },
 ]
 
 const router: Router = createRouter({
@@ -19,7 +31,7 @@ const router: Router = createRouter({
 })
 
 
-router.beforeEach(async (to, from, next): Promise<void> => {
+router.beforeEach(async (to: RouteLocationNormalizedGeneric, from: RouteLocationNormalizedLoadedGeneric, next: NavigationGuardNext): Promise<void> => {
     document.title = to.meta.title + " | ";
     next();
 
