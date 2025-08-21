@@ -8,7 +8,7 @@ const routes = [
         name: 'home',
         component: HomeView,
         meta: {
-            title: "Kanban nástěnka"
+            title: "Kanban nástěnka - domovská obrazovka"
         }
     },
 ]
@@ -20,7 +20,7 @@ const router: Router = createRouter({
 
 
 router.beforeEach(async (to, from, next): Promise<void> => {
-    document.title = to.meta.title + " test | ";
+    document.title = to.meta.title + " | ";
     next();
 
 });
