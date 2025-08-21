@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    volumes:
+      - kanban-nastenka-mongo:/data/db
+    networks:
+      - mongo-net
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      # mount source code into container
+      - ./frontend:/app
+      # keep node_modules inside container (don’t override with empty host folder)
+      - /app/node_modules
+    networks:
+      - mongo-net
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # helps file watching inside Docker on Linux/Windows
+
+volumes:
+  kanban-nastenka-mongo:
+
+networks:
+  mongo-net:
