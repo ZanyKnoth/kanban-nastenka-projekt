@@ -12,7 +12,6 @@
   .footer {
     background: rgb(0, 0, 58);
   }
-
   .footer__text {
     color: rgba(255,255,255,.5);
   }
