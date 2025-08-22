@@ -3,7 +3,6 @@
     <KanbanRow :title="'TO DO'" :active="6">
       <template #kanban-cards>
         <KanbanCard :title="'Content todo1 title'" :content="'Content todo1 text'"/>
-        <KanbanCard :title="'Content todo1 title'" :content="'Content todo1 text'"/>
       </template>
     </KanbanRow>
   </div>

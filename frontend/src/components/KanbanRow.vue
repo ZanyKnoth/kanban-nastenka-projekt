@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-  import KanbanCard from "@/components/KanbanCard.vue";
-
   const props = defineProps<{
     title: string;
     active: number;
