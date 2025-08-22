@@ -1,11 +1,11 @@
 <template>
-  <div class="home">
-    <CanbanBoard />
+  <div class="home w-100">
+    <KanbanBoard />
   </div>
 </template>
 
 <script setup lang="ts">
-  import CanbanBoard from "@/components/CanbanBoard.vue";
+  import KanbanBoard from "@/components/KanbanBoard.vue";
 </script>
 
 <style scoped>
