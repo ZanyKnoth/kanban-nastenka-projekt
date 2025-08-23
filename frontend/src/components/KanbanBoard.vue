@@ -1,14 +1,20 @@
 <template>
-  <div class="kanban-board container-fluid py-3 d-flex gap-4" :class="{'h-100 justify-content-center align-items-center': isLoading }">
-    <Loading v-if="isLoading" />
-    <KanbanRow v-else v-for="status in kanbanStates" :statusStrings="status" :kanban-cards="filterKanbanCardsByStatus(status.apiString)"/>
+  <div class="kanban-board d-flex flex-column gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
+    <div class="kanban-board__board-wrapper p-3 d-flex flex-column flex-md-row gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
+      <Loading v-if="isLoading" />
+      <KanbanColumn
+          v-else v-for="status in kanbanStates"
+          :statusStrings="status"
+          :kanban-cards="filterKanbanCardsByStatus(status.apiString)"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
   import type { Ref } from "vue";
-  import KanbanRow from "@/components/KanbanRow.vue";
+  import KanbanColumn from "@/components/KanbanColumn.vue";
   import Loading from "@/components/Loading.vue";
   import KanbanCard from "@/components/KanbanCard.vue";
   import type { KanbanStatusStrings } from "@/model/KanbanStatusStrings";
