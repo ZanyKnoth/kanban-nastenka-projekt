@@ -1,14 +1,66 @@
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import { defineStore } from 'pinia'
 import config from "@/config";
+import { useRequest } from "@/composables/useRequest";
 import type { KanbanCard } from "@/model/KanbanCard";
 import type { ErrorStatus } from "@/model/ErrorStatus";
-import { useRequest } from "@/composables/useRequest";
+import type { KanbanStatusStrings } from "@/model/KanbanStatusStrings";
 
 export const useKanbanStore = defineStore('kanbanStore', () => {
   const request = useRequest();
   const error: Ref<string | null> = ref<string | null>(null);
+  const kanbanStates: Ref<KanbanStatusStrings[]> = ref<KanbanStatusStrings[]>([
+    {
+      apiString: "todo",
+      pageString: "TO DO"
+    },
+    {
+      apiString: "in-progress",
+      pageString: "IN PROGRESS"
+    },
+    {
+      apiString: "done",
+      pageString: "DONE"
+    }
+  ]);
+
+  const state: any = reactive({
+    data:  [
+      {
+        id: "1",
+        title: "1",
+        content: "1",
+        status: "todo"
+      },
+      {
+        id: "2",
+        title: "2",
+        content: "2",
+        status: "in-progress"
+      },
+      {
+        id: "3",
+        title: "3",
+        content: "3",
+        status: "done"
+      },
+      {
+        id: "4",
+        title: "4",
+        content: "4",
+        status: "todo"
+      }
+    ]
+  });
+
+  async function test(): Promise<any> {
+    return await state.data;
+  }
+
+  function getKanbanStates(): KanbanStatusStrings[] {
+    return kanbanStates.value;
+  }
 
   async function getAllKanbanCards(): Promise<any> {
     error.value = null;
