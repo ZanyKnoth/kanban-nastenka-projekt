@@ -2,9 +2,9 @@
   <div class="kanban-board__col flex-fill">
     <div class="kanban-board__card shadow-sm h-100 rounded-3">
       <div class="kanban-board__header p-3 d-flex align-items-center fw-bold rounded-3">
-        <div class="kanban-board__header-text mx-2">{{ props.title }} <span>({{ props.active }})</span></div>
+        <div class="kanban-board__header-text mx-2">{{ props.title }} <span>({{ kanbanCards.length }})</span></div>
       </div>
-      <KanbanCard :title="'Content todo1 title'" :content="'Content todo1 text'"/>
+      <KanbanCard v-for="card in props.kanbanCards" :title="card.title" :content="card.content"/>
     </div>
   </div>
 </template>
@@ -14,7 +14,6 @@
 
   const props = defineProps<{
     title: string;
-    active: number;
     kanbanCards: KanbanCard[];
   }>();
 </script>
