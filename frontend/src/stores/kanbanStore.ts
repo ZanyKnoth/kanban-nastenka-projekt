@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { defineStore } from 'pinia'
 import config from "@/config";
@@ -52,12 +52,27 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
       }
     ]);
 
+  const draggingId: Ref<string> = ref("-1");
+
+  function setDraggingId(id: string): void {
+    draggingId.value = id;
+  }
+
   async function test(): Promise<KanbanCard[]> {
     return state.value;
   }
 
   function getKanbanStates(): KanbanStatusStrings[] {
     return kanbanStates.value;
+  }
+
+  function updateCardStatus(cardId: string, statusString: string): void {
+    for(const card of state.value) {
+      if(card.id == cardId) {
+        card.status = statusString;
+        break;
+      }
+    }
   }
 
   async function getAllKanbanCards(): Promise<any> {
@@ -135,5 +150,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     return { err: error.value };
   }
 
-  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, test, getKanbanStates }
+  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, test, getKanbanStates, updateCardStatus, setDraggingId, draggingId }
 })
