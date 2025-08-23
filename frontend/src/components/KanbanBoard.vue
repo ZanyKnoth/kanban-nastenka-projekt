@@ -1,5 +1,8 @@
 <template>
   <div class="kanban-board d-flex flex-column gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
+    <div class="kanban-board__button-wrapper p-3 d-flex justify-content-end">
+      <router-link class="kanban-board__link btn btn-success" :to="{ name: 'task', params: { id: '-1' } }">Přidat kartičku</router-link>
+    </div>
     <div class="kanban-board__board-wrapper p-3 d-flex flex-column flex-md-row gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
       <Loading v-if="isLoading" />
       <KanbanColumn
