@@ -10,7 +10,7 @@
       <div class="kanban-board__body-title fw-semibold h5">{{ props.data.title }}</div>
       <span class="kanban-board__body-content mt-1 h6">{{ props.data.content }}</span>
       <div class="kanban-board__link-wrapper d-flex justify-content-end">
-        <div class="badge bg-dark p-2">></div>
+        <router-link class="badge bg-dark p-2 link-underline link-underline-opacity-0" :to="{ name: 'task', params: { id: props.data.id } }">></router-link>
       </div>
     </div>
   </div>
@@ -37,8 +37,8 @@
     event.dataTransfer.setData("kanban-card-id", props.data.id);
     kanbanStore.setDraggingId(props.data.id);
 
-    const node = event.currentTarget as HTMLElement;
-    const rect = node.getBoundingClientRect();
+    const node: HTMLElement = event.currentTarget as HTMLElement;
+    const rect: DOMRect = node.getBoundingClientRect();
 
     clone.value = node.cloneNode(true) as HTMLElement;
 
