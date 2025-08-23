@@ -25,8 +25,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     }
   ]);
 
-  const state: any = reactive({
-    data:  [
+  const state: Ref<KanbanCard[]> = ref<KanbanCard[]>( [
       {
         id: "1",
         title: "1",
@@ -51,11 +50,10 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         content: "4",
         status: "todo"
       }
-    ]
-  });
+    ]);
 
-  async function test(): Promise<any> {
-    return await state.data;
+  async function test(): Promise<KanbanCard[]> {
+    return state.value;
   }
 
   function getKanbanStates(): KanbanStatusStrings[] {
@@ -137,5 +135,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     return { err: error.value };
   }
 
-  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard }
+  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, test, getKanbanStates }
 })
