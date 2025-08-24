@@ -1,6 +1,6 @@
 <template>
   <div class="app-container d-flex flex-column min-vh-100">
-    <main class="app-container__main d-flex flex-grow-1 ">
+    <main class="app-container__main d-flex flex-grow-1">
       <div class="app-container__wrapper d-flex flex-grow-1 m-2">
         <RouterView />
       </div>
