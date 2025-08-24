@@ -40,4 +40,15 @@ export class TaskController {
 
     return task;
   }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<Task | null> {
+    const task: Task | null = await this.taskService.delete(id);
+
+    if (!task) {
+      throw new NotFoundException(`Task not found`);
+    }
+
+    return task;
+  }
 }

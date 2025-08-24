@@ -22,3 +22,6 @@ Content-Type: application/json
   "content": "Implement DTOs and save to MongoDB",
   "state": "done"
 }
+
+### delete task
+DELETE http://localhost:3000/tasks/68ab46ce5114c55009f5d6d3

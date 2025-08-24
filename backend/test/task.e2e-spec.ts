@@ -32,4 +32,14 @@ describe('TaskController (e2e)', (): void => {
 
     expect(res.body.title).toBe('updated');
   });
+
+  it('should delete an existing task', async (): Promise<void> => {
+    await request(app.getHttpServer())
+        .delete(`/tasks/${createdTaskId}`)
+        .expect(200);
+
+    await request(app.getHttpServer())
+        .get(`/tasks/${createdTaskId}`)
+        .expect(404);
+  });
 });

@@ -28,4 +28,8 @@ export class TaskService {
   async updateTask(id: string, dto: TaskDto): Promise<Task | null> {
     return this.taskModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
+
+  async delete(id: string): Promise<Task | null> {
+    return this.taskModel.findByIdAndDelete(id).exec();
+  }
 }
