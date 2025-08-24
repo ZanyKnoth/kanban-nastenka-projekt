@@ -8,7 +8,11 @@
       <div class="kanban-board__header p-3 d-flex align-items-center fw-bold rounded-3">
         <div class="kanban-board__header-text mx-2">{{ props.statusStrings.pageString }} <span>({{ kanbanCards.length }})</span></div>
       </div>
-      <KanbanCard v-for="card in props.kanbanCards" :data="card"/>
+      <KanbanCard
+          v-for="card in props.kanbanCards"
+          :data="card"
+          :key="card._id"
+      />
     </div>
   </div>
 </template>

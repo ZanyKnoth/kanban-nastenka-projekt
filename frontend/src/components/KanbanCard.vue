@@ -10,7 +10,7 @@
       <div class="kanban-board__body-title fw-semibold h5">{{ props.data.title }}</div>
       <span class="kanban-board__body-content mt-1 h6">{{ props.data.content }}</span>
       <div class="kanban-board__link-wrapper d-flex justify-content-end">
-        <router-link class="badge bg-dark p-2 link-underline link-underline-opacity-0" :to="{ name: 'task', params: { id: props.data.id } }">></router-link>
+        <router-link class="badge bg-dark p-2 link-underline link-underline-opacity-0" :to="{ name: 'task', params: { id: props.data._id } }">></router-link>
       </div>
     </div>
   </div>

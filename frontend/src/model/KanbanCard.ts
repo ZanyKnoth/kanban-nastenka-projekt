@@ -1,6 +1,6 @@
 export interface KanbanCard {
-    id?: string;
+    _id?: string;
     title?: string;
     content?: string;
-    status?: string;
+    state?: string;
 }
