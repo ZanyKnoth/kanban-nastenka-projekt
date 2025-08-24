@@ -24,4 +24,8 @@ export class TaskService {
     });
     return task.save();
   }
+
+  async updateTask(id: string, dto: TaskDto): Promise<Task | null> {
+    return this.taskModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+  }
 }

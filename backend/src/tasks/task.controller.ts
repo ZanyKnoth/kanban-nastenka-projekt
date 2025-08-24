@@ -29,4 +29,15 @@ export class TaskController {
 
     return this.taskService.create(title, content);
   }
+
+  @Put(':id')
+  async updateTask(@Param('id') id: string, @Body() taskDto: TaskDto) {
+    const task: Task | null = await this.taskService.updateTask(id, taskDto);
+
+    if (!task) {
+      throw new NotFoundException(`Task not found`);
+    }
+
+    return task;
+  }
 }
