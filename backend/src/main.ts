@@ -11,7 +11,7 @@ async function bootstrap(): Promise<any> {
   const configService = app.get(ConfigService);
 
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN') || '*',
+    origin: configService.get<string>('CORS_ORIGIN')?.split(",").map(origin => origin.trim()) || '*'
   });
 
   const port = configService.get<number>('PORT', 3000);
