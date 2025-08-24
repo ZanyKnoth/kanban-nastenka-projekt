@@ -1,14 +1,15 @@
 <template>
-  <div class="kanban-board d-flex flex-column gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
+  <div class="kanban-board d-flex flex-column gap-4" :class="{ 'h-100 justify-content-center': isLoading }">
     <div class="kanban-board__button-wrapper p-3 d-flex justify-content-end">
       <router-link class="kanban-board__link btn btn-success" :to="{ name: 'task', params: { id: '-1' } }">Přidat kartičku</router-link>
     </div>
     <div class="kanban-board__board-wrapper p-3 d-flex flex-column flex-md-row gap-4" :class="{ 'h-100 justify-content-center align-items-center': isLoading }">
       <Loading v-if="isLoading" />
       <KanbanColumn
-          v-else v-for="status in kanbanStates"
-          :statusStrings="status"
-          :kanban-cards="filterKanbanCardsByStatus(status.apiString)"
+          v-else v-for="state in kanbanStates"
+          :statusStrings="state"
+          :key="state.apiString"
+          :kanban-cards="filterKanbanCardsByStatus(state.apiString)"
       />
     </div>
   </div>
@@ -30,14 +31,15 @@
   const kanbanStates: Ref<KanbanStatusStrings[]> = ref<KanbanStatusStrings[]>([]);
   const kanbanData: Ref<KanbanCard[]> = ref<KanbanCard[]>([]);
 
-  function filterKanbanCardsByStatus(status: string) {
-    return kanbanData.value.filter((card: KanbanCard): boolean => card.status == status);
+  function filterKanbanCardsByStatus(state: string) {
+    return kanbanData.value.filter((card: KanbanCard): boolean => card.state == state);
   }
 
   onMounted(async () => {
-
     kanbanStates.value = kanbanStore.getKanbanStates();
-    kanbanData.value = await kanbanStore.test();
+
+    const { err, data } = await kanbanStore.getAllKanbanCards();
+    kanbanData.value = data;
 
     isLoading.value = false;
   });
