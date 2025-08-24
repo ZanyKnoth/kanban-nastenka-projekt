@@ -8,7 +8,7 @@
           <Form
               :content="formData"
               :btn-text="route.params.id != '-1' ? 'Upravit kartičku' : 'Založit kartičku'"
-              @form-submit="addTask"
+              @form-submit="addOrUpdateTask"
           >
             <template v-if="route.params.id != '-1'" #extra-buttons>
               <button class="form__button form__button--delete btn btn-danger" @click="deleteTask">Smazat kartičku
@@ -39,21 +39,22 @@
 
   const isLoading: Ref<boolean> = ref<boolean>(true);
   const loadingError: Ref<string | null> = ref<string | null>(null);
-  const taskData: Ref<KanbanCard | null> = ref<KanbanCard | null>(null);
+  const errors: Ref<string[]> = ref<string[]>([]);
+  const cardData: Ref<KanbanCard | null> = ref<KanbanCard | null>(null);
 
   const formData: Ref<ObjectType> = ref<ObjectType>({
     data: [
       {
         formLabel: "id",
-        value: -1,
+        value: "-1",
         type: "hidden",
-        key: "id_age_category"
+        key: "id"
       },
       {
         formLabel: "Název",
         value: "",
         type: "text",
-        key: "name"
+        key: "title"
       },
       {
         formLabel: "Obsah",
@@ -65,34 +66,55 @@
   });
 
   async function fetchData() {
-    taskData.value = await kanbanStore.test();
-    let task: KanbanCard | null = null;
+    const { err, data } = await kanbanStore.getKanbanCardById(route.params.id as string);
 
-    for(const card of taskData.value) {
-      if(card.id == route.params.id) {
-        task = card;
-        break;
-      }
-    }
+    if (!err) {
+      cardData.value = data;
 
-    let i = 0;
+      let i = 0;
 
-    for (const info in task) {
-      if (i < formData.value.data.length) {
-        if (task) {
-          formData.value.data[i].value = task?.[info as keyof KanbanCard] ?? null;
+      for (const info in cardData.value) {
+        if (i < formData.value.data.length) {
+          if (cardData.value) {
+            formData.value.data[i].value = cardData.value?.[info as keyof KanbanCard] ?? null;
+          }
+          i++;
         }
-        i++;
       }
+    } else {
+      loadingError.value = err;
     }
   }
 
-  function addTask() {
+  async function addOrUpdateTask() {
+    errors.value = [];
 
+    const data: Ref<KanbanCard> = ref<KanbanCard>({})
+
+    for (const info of formData.value.data) {
+        if (info.key != "id") {
+          (data.value as any)[info.key as keyof KanbanCard] = info.value;
+        }
+      }
+
+    console.log(data.value);
+    console.log(route.params.id);
+
+    const { err } = await kanbanStore.createOrUpdateKanbanCard(data.value, route.params.id);
+
+    if (!err) {
+      await router.push("/");
+    } else {
+      errors.value.push(err);
+    }
   }
 
-  function deleteTask() {
+  async function deleteTask() {
+    const { err: err } = await kanbanStore.deleteKanbanCard(route.params.id);
 
+    if (!err) {
+      await router.push("/");
+    }
   }
 
   onMounted(async () => {
@@ -110,7 +132,7 @@
         formLabel: "Stav",
         value: "todo",
         type: "select",
-        key: "state_select",
+        key: "state",
         choices: selectChoices
       });
 
