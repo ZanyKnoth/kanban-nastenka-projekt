@@ -4,7 +4,8 @@
     <div class="task__wrapper d-flex flex-column align-items-center flex-fill" :class="{ 'justify-content-center': isLoading }">
       <Loading v-if="isLoading"/>
       <div v-else class="task__content">
-        <div v-if="!loadingError" class="task__container p-2">
+        <div v-if="!loadingError" class="task__container p-2 d-flex flex-column align-items-center">
+          <Banner v-if="errors.length > 0" :messages="errors" :type="'error'"/>
           <Form
               :content="formData"
               :btn-text="route.params.id != '-1' ? 'Upravit kartičku' : 'Založit kartičku'"
@@ -32,6 +33,7 @@
   import type { SelectChoice } from "@/model/SelectChoice";
   import type { KanbanCard } from "@/model/KanbanCard";
   import BackButton from "@/components/BackButton.vue";
+  import Banner from "@/components/Banner.vue";
 
   const route = useRoute();
   const router = useRouter();
@@ -97,9 +99,6 @@
         }
       }
 
-    console.log(data.value);
-    console.log(route.params.id);
-
     const { err } = await kanbanStore.createOrUpdateKanbanCard(data.value, route.params.id);
 
     if (!err) {
@@ -107,6 +106,8 @@
     } else {
       errors.value.push(err);
     }
+
+    console.log(data.value)
   }
 
   async function deleteTask() {
