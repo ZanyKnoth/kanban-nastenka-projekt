@@ -9,20 +9,29 @@ services:
       - kanban-nastenka-mongo:/data/db
     networks:
       - mongo-net
-
+  backend:
+    build:
+      context: backend
+    ports:
+      - "5001:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/backend
+      - CORS_ORIGIN=http://localhost:5002
+    networks:
+      - mongo-net
+    depends_on:
+      - mongo
   frontend:
     build: ./frontend
     ports:
       - "5173:5173"
     volumes:
-      # mount source code into container
       - ./frontend:/app
-      # keep node_modules inside container (don’t override with empty host folder)
       - /app/node_modules
     networks:
       - mongo-net
     environment:
-      - CHOKIDAR_USEPOLLING=true   # helps file watching inside Docker on Linux/Windows
+      - CHOKIDAR_USEPOLLING=true
 
 volumes:
   kanban-nastenka-mongo:
