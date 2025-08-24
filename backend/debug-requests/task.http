@@ -1,0 +1,27 @@
+### Search for tasks
+GET http://localhost:3000/tasks
+
+### Search for task by id
+GET http://localhost:3000/tasks/68ab46ce5114c55009f5d6d3
+
+### Create task
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+  "title": "test",
+  "content": "test"
+}
+
+### Update task
+PUT http://localhost:3000/tasks/68ab46ce5114c55009f5d6d3
+Content-Type: application/json
+
+{
+  "title": "Finish NestJS module",
+  "content": "Implement DTOs and save to MongoDB",
+  "state": "done"
+}
+
+### delete task
+DELETE http://localhost:3000/tasks/68ab46ce5114c55009f5d6d3
