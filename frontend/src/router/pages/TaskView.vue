@@ -1,5 +1,6 @@
 <template>
   <div class=" task d-flex flex-column flex-fill p-3">
+    <BackButton :link="'/'"/>
     <div class="task__wrapper d-flex flex-column align-items-center flex-fill" :class="{ 'justify-content-center': isLoading }">
       <Loading v-if="isLoading"/>
       <div v-else class="task__content">
