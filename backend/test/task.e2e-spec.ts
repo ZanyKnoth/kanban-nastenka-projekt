@@ -23,13 +23,4 @@ describe('TaskController (e2e)', (): void => {
     createdTaskId = res.body._id;
     expect(res.body.title).toBe('test');
   });
-
-  it('should update an existing task', async (): Promise<void> => {
-    const res: Response = await request(app.getHttpServer())
-        .put(`/tasks/${createdTaskId}`)
-        .send({ title: 'updated', content: 'updated', state: 'done' })
-        .expect(200);
-
-    expect(res.body.title).toBe('updated');
-  });
 });

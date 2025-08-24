@@ -15,4 +15,13 @@ export class TaskService {
   async findById(id: string): Promise<Task | null> {
     return this.taskModel.findById(id).exec();
   }
+
+  async create(title: string, content: string): Promise<Task> {
+    const task = new this.taskModel({
+      title,
+      content,
+      state: "todo"
+    });
+    return task.save();
+  }
 }

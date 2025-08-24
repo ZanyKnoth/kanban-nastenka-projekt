@@ -22,4 +22,11 @@ export class TaskController {
 
     return task;
   }
+
+  @Post()
+  async create(@Body() taskDto: TaskDto) {
+    const { title, content, state } = taskDto;
+
+    return this.taskService.create(title, content);
+  }
 }
