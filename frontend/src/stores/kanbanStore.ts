@@ -9,6 +9,7 @@ import type { KanbanStatusStrings } from "@/model/KanbanStatusStrings";
 
 export const useKanbanStore = defineStore('kanbanStore', () => {
   const request = useRequest();
+
   const error: Ref<string | null> = ref<string | null>(null);
   const kanbanStates: Ref<KanbanStatusStrings[]> = ref<KanbanStatusStrings[]>([
     {
@@ -25,54 +26,14 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     }
   ]);
 
-  const state: Ref<KanbanCard[]> = ref<KanbanCard[]>( [
-      {
-        id: "1",
-        title: "1",
-        content: "1",
-        status: "todo"
-      },
-      {
-        id: "2",
-        title: "2",
-        content: "2",
-        status: "in-progress"
-      },
-      {
-        id: "3",
-        title: "3",
-        content: "3",
-        status: "done"
-      },
-      {
-        id: "4",
-        title: "4",
-        content: "4",
-        status: "todo"
-      }
-    ]);
-
   const draggingId: Ref<string> = ref("-1");
 
   function setDraggingId(id: string): void {
     draggingId.value = id;
   }
 
-  async function test(): Promise<KanbanCard[]> {
-    return state.value;
-  }
-
   function getKanbanStates(): KanbanStatusStrings[] {
     return kanbanStates.value;
-  }
-
-  function updateCardStatus(cardId: string, statusString: string): void {
-    for(const card of state.value) {
-      if(card.id == cardId) {
-        card.status = statusString;
-        break;
-      }
-    }
   }
 
   async function getAllKanbanCards(): Promise<any> {
@@ -80,7 +41,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     const data: Ref<KanbanCard[]> = ref<KanbanCard[]>([]);
 
     try {
-      data.value = await request.plainRequest(config.backendUrl + "/kanban/get-all-kanban-cards", { method: "GET" });
+      data.value = await request.plainRequest(config.backendUrl + "/tasks", { method: "GET" });
 
     } catch (err: any) {
       error.value = "Došlo k neočekávané chybě.";
@@ -94,7 +55,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     const data: Ref<KanbanCard | null> = ref<KanbanCard | null>(null);
 
     try {
-      data.value = await request.plainRequeset(config.backendUrl + "/kanban/get-kanban-card/" + id, { method: "GET" });
+      data.value = await request.plainRequest(config.backendUrl + "/tasks/" + id, { method: "GET" });
 
     } catch (err: any) {
       if (err.response && err.response.status === 404) {
@@ -107,15 +68,15 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     return { err: error.value, data: data.value };
   }
 
-  async function createOrUpdateKanbanCard(data: KanbanCard): Promise<any> {
+  async function createOrUpdateKanbanCard(data: KanbanCard, id: string): Promise<any> {
     error.value = null;
 
     try {
-      if(data.id == -1) {
-        await request.plainRequeset(config.backendUrl + "/kanban/create-kanban-card", { method: "POST", data: data });
+      if(id == "-1") {
+        await request.plainRequest(config.backendUrl + "/tasks", { method: "POST", data: data });
 
       } else {
-        await request.plainRequeset(config.backendUrl + "/kanban/update-kanban-card/" + data.id_age_category, { method: "PUT", data: data });
+        await request.plainRequest(config.backendUrl + "/tasks/" + id, { method: "PUT", data: data });
       }
     } catch (err: any) {
       if (err.response) {
@@ -137,7 +98,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     error.value = null;
 
     try {
-      await request.plainRequeset(config.backendUrl + "/kanban/delete-kanban-card/" + id, { method: "DELETE" });
+      await request.plainRequest(config.backendUrl + "/tasks/" + id, { method: "DELETE" });
 
     } catch (err: any) {
       if (err.response && err.response.status === 404) {
@@ -150,5 +111,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     return { err: error.value };
   }
 
-  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, test, getKanbanStates, updateCardStatus, setDraggingId, draggingId }
+  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, getKanbanStates, setDraggingId, draggingId }
 })
