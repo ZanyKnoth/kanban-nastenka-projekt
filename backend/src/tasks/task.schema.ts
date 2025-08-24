@@ -5,7 +5,7 @@ export type TaskDocument = Task & Document;
 
 @Schema({ collection: 'tasks', timestamps: true })
 export class Task {
-    @Prop({ required: true })
+    @Prop()
     title: string;
 
     @Prop()
