@@ -11,4 +11,8 @@ export class TaskService {
   async findAll(): Promise<Task[]> {
     return this.taskModel.find().exec();
   }
+
+  async findById(id: string): Promise<Task | null> {
+    return this.taskModel.findById(id).exec();
+  }
 }

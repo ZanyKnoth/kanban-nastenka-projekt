@@ -1,2 +1,5 @@
 ### Search for tasks
 GET http://localhost:3000/tasks
+
+### Search for task by id
+GET http://localhost:3000/tasks/68ab46ce5114c55009f5d6d3

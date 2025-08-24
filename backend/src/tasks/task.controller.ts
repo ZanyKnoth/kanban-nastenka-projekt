@@ -11,4 +11,15 @@ export class TaskController {
   async getAll(): Promise<Task[]> {
     return this.taskService.findAll();
   }
+
+  @Get(':id')
+  async getById(@Param('id') id: string): Promise<Task | null> {
+    const task: Task | null = await this.taskService.findById(id);
+
+    if (!task) {
+      throw new NotFoundException(`Task not found`);
+    }
+
+    return task;
+  }
 }
