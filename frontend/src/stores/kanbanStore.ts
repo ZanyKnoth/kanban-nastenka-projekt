@@ -26,10 +26,11 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     }
   ]);
 
-  const draggingId: Ref<string> = ref("-1");
+  const draggingCard: Ref<KanbanCard | null> = ref(null);
+  const kanbanCards: Ref<KanbanCard[]> = ref([]);
 
-  function setDraggingId(id: string): void {
-    draggingId.value = id;
+  function setDraggingCard(card: KanbanCard | null): void {
+    draggingCard.value = card;
   }
 
   function getKanbanStates(): KanbanStatusStrings[] {
@@ -38,16 +39,15 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
   async function getAllKanbanCards(): Promise<any> {
     error.value = null;
-    const data: Ref<KanbanCard[]> = ref<KanbanCard[]>([]);
 
     try {
-      data.value = await request.plainRequest(config.backendUrl + "/tasks", { method: "GET" });
+      kanbanCards.value = await request.plainRequest(config.backendUrl + "/tasks", { method: "GET" });
 
     } catch (err: any) {
       error.value = "Došlo k neočekávané chybě.";
     }
 
-    return { err: error.value, data: data.value };
+    return { err: error.value, data: kanbanCards.value };
   }
 
   async function getKanbanCardById(id: string): Promise<{err: string, data: any}> {
@@ -111,5 +111,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     return { err: error.value };
   }
 
-  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, getKanbanStates, setDraggingId, draggingId }
+  return { getAllKanbanCards, getKanbanCardById, createOrUpdateKanbanCard, deleteKanbanCard, getKanbanStates, setDraggingCard, draggingCard, kanbanCards }
 })

@@ -29,14 +29,22 @@
 
   const kanbanStore = useKanbanStore();
 
-  function onDrop(event: DragEvent) {
-    const cardId: string = event.dataTransfer?.getData("kanban-card-id");
+  async function onDrop(event: DragEvent) {
+    const card: KanbanCard = kanbanStore.draggingCard;
 
-    if (!cardId) {
+    if (!card) {
       return;
     }
 
-    kanbanStore.updateCardStatus(cardId, props.statusStrings.apiString);
+    const updatedCard = {
+      title: card.title,
+      content: card.content,
+      state: props.statusStrings.apiString
+    };
+
+    await kanbanStore.createOrUpdateKanbanCard(updatedCard, card._id);
+
+    await kanbanStore.getAllKanbanCards();
   }
 </script>
 

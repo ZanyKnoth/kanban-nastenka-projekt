@@ -27,19 +27,16 @@
   const kanbanStore = useKanbanStore();
 
   const isLoading: Ref<boolean> = ref<boolean>(true);
-  const loadingError: Ref<string | null> = ref<string | null>(null);
   const kanbanStates: Ref<KanbanStatusStrings[]> = ref<KanbanStatusStrings[]>([]);
-  const kanbanData: Ref<KanbanCard[]> = ref<KanbanCard[]>([]);
 
   function filterKanbanCardsByStatus(state: string) {
-    return kanbanData.value.filter((card: KanbanCard): boolean => card.state == state);
+    return kanbanStore.kanbanCards.filter((card: KanbanCard): boolean => card.state == state);
   }
 
   onMounted(async () => {
     kanbanStates.value = kanbanStore.getKanbanStates();
 
-    const { err, data } = await kanbanStore.getAllKanbanCards();
-    kanbanData.value = data;
+    await kanbanStore.getAllKanbanCards();
 
     isLoading.value = false;
   });

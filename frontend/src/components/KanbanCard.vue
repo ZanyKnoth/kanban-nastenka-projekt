@@ -34,8 +34,7 @@
       return;
     }
 
-    event.dataTransfer.setData("kanban-card-id", props.data.id);
-    kanbanStore.setDraggingId(props.data.id);
+    kanbanStore.setDraggingCard(props.data);
 
     const node: HTMLElement = event.currentTarget as HTMLElement;
     const rect: DOMRect = node.getBoundingClientRect();
@@ -56,12 +55,12 @@
   }
 
   function onDragEnd() {
-    kanbanStore.setDraggingId(null);
+    kanbanStore.setDraggingCard(null);
 
     document.body.removeChild(clone.value);
   }
 
-  const isDraggingMe = computed(() => kanbanStore.draggingId === props.data.id);
+  const isDraggingMe = computed(() => kanbanStore.draggingCard?.value?._id === props.data._id);
 </script>
 
 <style scoped>
