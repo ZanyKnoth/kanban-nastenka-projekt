@@ -13,7 +13,7 @@
   }>()
 
   const bannerClass = computed(() => {
-    const base = 'd-flex flex-column align-items-center text-center fw-bold rounded py-2 px-4 my-4 w-50'
+    const base = 'd-flex flex-column align-items-center text-center fw-bold rounded py-2 px-4 my-4'
     const typeClasses = {
       error: 'bg-danger text-white',
       info: 'bg-primary text-white',

@@ -3,7 +3,7 @@
     <BackButton :link="'/'"/>
     <div class="task__wrapper d-flex flex-column align-items-center flex-fill" :class="{ 'justify-content-center': isLoading }">
       <Loading v-if="isLoading"/>
-      <div v-else class="task__content d-flex flex-column flex-fill">
+      <div v-else class="task__content d-flex flex-column">
         <div v-if="!loadingError" class="task__container p-2 d-flex flex-column align-items-center">
           <Banner v-if="errors.length > 0" :messages="errors" :type="'error'"/>
           <Form
@@ -143,7 +143,7 @@
       await fetchData();
     }
 
-    isLoading.value = false;
+   isLoading.value = false;
   });
 </script>
 
